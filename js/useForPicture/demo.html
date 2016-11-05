@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>js实现图片base64处理和预加载</title>
+</head>
+<body>
+	<h1>js实现图片base64处理和预加载</h1>
+	<pre>
+
+		操作完在看img的src都是base64的数据了
+
+	</pre>
+
+	<!--origin show-->
+	<img src="demo.jpg"><hr/>
+
+	<!--readfile show-->
+	<input type="file" id="choose" accept='image/jpg,image/png,image/jpeg'>
+	<img src="" id="readfile">
+	<button type="button" id="btn">预览</button><hr/>
+
+	<!--canvas show-->
+	<cite>上面是canvas画布</cite>
+	<canvas width='500' height='200' id='blackboard'></canvas><hr/>
+	<cite>这是image标签</cite>
+	<img src="" id="canvas">
+	<button type="button" id="c_btn">预加载和预览,要在服务器环境上看这个</button>
+
+	<script type="text/javascript">
+		//*****ReadFile api 主要是上传图片时候预览保存
+		document.getElementById('btn').onclick=function(){
+			var file_input = document.querySelector('#choose')
+			if(file_input.files.length){
+				var file = file_input.files[0]
+				var reader = new FileReader()
+				//图片转为base64
+				reader.readAsDataURL(file)
+				//读取完毕
+				reader.onload = function(){
+					//reader.result是读取结果,段然不可console输出,卡爆炸
+					document.getElementById('readfile').setAttribute('src',reader.result)
+				}
+			}else{
+				alert('请选择图片!')
+			}
+		}
+
+		//******canvas预加载图片和预览
+		document.getElementById('c_btn').onclick = function(){
+			//预加载
+			var demo = new Image()
+			demo.src='/demo.jpg'
+			//画板
+			var canvas = document.getElementById('blackboard')
+			var context = canvas.getContext('2d')
+			context.drawImage(demo,0,0)
+			demo.onload = function(){
+				alert('图片预加载完毕,即将预览')
+				var img = canvas.toDataURL('image/png')
+				document.getElementById('canvas').setAttribute('src',img)
+			}
+		}
+	</script>
+</body>
+</html>
