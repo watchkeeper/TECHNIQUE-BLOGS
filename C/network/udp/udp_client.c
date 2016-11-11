@@ -21,5 +21,12 @@ void dowork(FILE *fp,int sockfd,const struct sockaddr *servaddr,socklen_t ser_le
 {
     int n;
     char sendline[MAXLINE],recvline[MAXLINE + 1];
-    sendto(sockfd,sendline,strlen(sendline),0,servaddr,ser_len);
+    while (fgets(sendline,MAXLINE,fp) != NULL {
+        sendto(sockfd,sendline,strlen(sendline),0,servaddr,ser_len);
+        n = recvfrom(sockfd,recvline,MAXLINE,0,NULL,NULL);
+        recvline[n] = 0;
+        fputs(recvline,stdout);
+    }
+
+
 }

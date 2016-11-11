@@ -1,4 +1,4 @@
-字符的输入输出:
+1.字符的输入输出:
     输出:
         int fputc(int c,FILE *stream);
         int putc(int c,FILE *stream);
@@ -11,3 +11,13 @@
         int getc(FILE　*stream);
         int getchar(void); /*从标准输入流中读取数据*/
         int ungetc(int c,FILE *stream);
+
+2.字符串的输入输出:
+    输出:
+        /*不会自动添加换行符,当出现错误,均返回EOF*/
+        int fputs(const char *s,FILE *stream);
+        int puts(const char *s);
+    输入:
+        /*s:存储的地方,n允许存储的容量*/
+        char *fgets(char *s,int n,FILE *stream);
+        char *fgets(char *s);
