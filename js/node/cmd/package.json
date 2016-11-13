@@ -1,0 +1,20 @@
+{
+  "name": "modledeal",
+  "version": "1.0.0",
+  "bin":{
+    "modledeal":"./bin/modledeal"
+    },
+  "description": "none",
+  "main": "test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "method"
+  ],
+  "author": "modle_sherlock",
+  "license": "ISC",
+  "dependencies": {
+    "yargs": "^6.3.0"
+  }
+}

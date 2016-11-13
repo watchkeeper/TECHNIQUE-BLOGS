@@ -1,0 +1,88 @@
+#!/usr/bin/env node
+/*remark curTime at document header by modledeal -d dirname -f filename*/
+const fs = require('fs')
+const yargs = require('yargs').argv
+const path = require('path')
+
+const directory = yargs.d
+const filename = yargs.f
+
+const getTime = ()=>{
+	const cur = new Date()
+	const year = cur.getFullYear()
+	const month = cur.getMonth()
+	const day = cur.getDate()
+	const hour = cur.getHours()
+	const munite = cur.getMinutes()
+	const second =cur.getSeconds()
+	return `${year}-${month}-${day} ${hour}:${munite}:${second}`
+}
+
+const dealContent = (path)=>{
+	let data  =  `/*This file updated recent at : ${getTime()}*/
+	`
+	//here I execute this script at document root so root is refer not this directory
+	const buffer = new Buffer(1024)
+	fs.readFile(path,(err,origin)=>{
+		const in_data = data+origin.toString()
+		fs.writeFile(path,in_data,(err)=>{
+			if(err){
+				console.log('writing error')
+				process.exit(1)
+			}
+			console.log(path+' dealing successfully!')
+		})
+	})
+}
+
+const judgeType = (path)=>{
+	const stat = fs.statSync(path)
+	if(stat.isFile()){
+		return 'file'
+	}
+	if(stat.isDirectory()){
+		return 'directory'
+	}
+}
+
+if(filename){
+	if(judgeType(filename)=='file'){
+		dealContent(filename)
+	}else{
+		console.log('-f is not a filename')
+	}
+}
+if(directory){
+	if(judgeType(directory)=='directory'){
+		const list = fs.readdirSync(directory)
+		for(let i =0 ;i<list.length;i++){
+			dealContent(path.resolve(directory,list[i]))
+		}
+
+	}else{
+		console.log('-d is not a directory')
+	}
+}
+
+
+
+//不能监听的修改,否则我写进去,就触发,修改,在写进去,再出发,无休止了
+// fs.watch(filename,(e,f)=>{
+// 	if(e=='change'){
+// 		fs.exists(f,(flag)=>{
+// 			if(flag){
+// 				console.log('fuc')
+// 				dealContent(f)
+// 			}
+// 		})
+// 	}
+// })
+// fs.watch(directory,(e,f)=>{ 
+// 	if(e=='change'){
+// 		fs.exists(f,(flag)=>{
+// 			if(flag){
+// 				dealContent(f)
+// 			}
+// 		})
+// 	}
+// })
