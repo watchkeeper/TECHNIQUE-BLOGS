@@ -1,4 +1,4 @@
-#include "public_io.h"
+#include "../public_io.h"
 void dowork(FILE *fp,int sockfd,const struct sockaddr *servaddr,socklen_t ser_len);
 /**
  * 使用UDP协议的客户端

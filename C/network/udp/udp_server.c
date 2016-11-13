@@ -1,4 +1,4 @@
-#include "tcp/&udp/public_io.h"
+#include "../public_io.h"
 void dowork(int sockfd,struct sockaddr *cli_addr,socklen_t cli_len);
 /**
  *  使用UDP作为传输协议
@@ -22,11 +22,12 @@ int main(int argc, char const *argv[]) {
 }
 void dowork(int sockfd,struct sockaddr *cli_addr,socklen_t cli_len)
 {
+    s
     int n;
     socklen_t len;
     char msg[MAXLINE];
-
     for(;;){
+        recvfrom
         len = cli_len;
         n = recvfrom(sockfd,msg,MAXLINE,0,cli_addr,&len);
         sendto(sockfd,msg,n,0,cli_addr,len);
