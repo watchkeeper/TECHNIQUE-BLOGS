@@ -4,7 +4,8 @@
   "description": "sherlock_modle",
   "main": "webpack.config.js",
   "scripts": {
-    "start": "webpack-dev-server --hot --inline"
+    "start": "webpack-dev-server --hot --inline",
+    "server":"webpack-dev-server --action=server"
   },
   "repository": {
     "type": "git",
