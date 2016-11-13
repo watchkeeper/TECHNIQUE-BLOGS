@@ -1,0 +1,30 @@
+{
+  "name": "express_env",
+  "version": "1.0.0",
+  "description": "express helper node ",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/watchkeeper/TECHNIQUE-BLOGS.git"
+  },
+  "keywords": [
+    "node",
+    "user"
+  ],
+  "author": "modle_sherlock",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/watchkeeper/TECHNIQUE-BLOGS/issues"
+  },
+  "homepage": "https://github.com/watchkeeper/TECHNIQUE-BLOGS#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.2",
+    "morgan": "^1.7.0"
+  }
+}
