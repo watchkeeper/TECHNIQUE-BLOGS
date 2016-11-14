@@ -1,0 +1,26 @@
+{
+	"name":"planner",
+	"main":"index.html",
+	"description":"modle_sherlock running way",
+	"version":"1.0.1",
+	"keywords":["client","node-webkit"],
+	"nodejs":true,
+	"single-instance":true,
+	"window":{
+		"title":"planner",
+		"icon":"fairy.ico",
+		"toolbar":true,
+		"frame":true,
+		"width":800,
+		"height":550,
+		"min_width":600,
+		"min_height":400,
+		"max_width":900,
+		"max_heigth":600
+
+	},
+	"webkit":{
+		"plugin":true
+	}
+
+}

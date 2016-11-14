@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Node Webkit By Vue</title>
+	<link rel="stylesheet" type="text/css" href="src/index.css">
+</head>
+<body>
+	
+	<div id="app">
+		<p class="title">Modle Rational Planner</p>
+		<!--here add listener and there is no need to add at javascript-->
+		<router-view class='router-view' ></router-view>
+	</div>
+
+	<template id="login-tpl">
+		<div class="flex">
+			<strong class="sign-title">Please sign in</strong>
+			<input type="text" placeholder="Input you username"  class="sign-name" v-model="userMsg.user"/>
+			<input type="password" placeholder="Input your password"  class="sign-pswd" v-model="userMsg.pswd"/>
+			<router-link to="/register">register</router-link>
+			<button  type="button" class="sign-btn" @click="login">SIGN IN</button>
+		</div>
+	</template>
+	<template id="register-tpl">
+		<div class="flex">
+			<strong class="sign-title">Register</strong>
+			<input type="text" placeholder="Input you username"  class="sign-name" v-model="userMsg.user"/>
+			<input type="password" placeholder="Input your password"  class="sign-pswd"  v-model="userMsg.pswd"/>
+			<input type="password" placeholder="Repeat your password"  class="sign-pswd" v-model="userMsg.Rpswd"/>
+			<router-link to="/login">login</router-link>
+			<button  type="button" class="sign-btn" v-on:click="register">Register</button>
+		</div>
+	</template>
+	<template id="main-tpl">
+		<div class="flex">
+			
+		</div>
+	</template>
+
+	<script type="text/javascript" src="src/vue.js"></script>
+	<script type="text/javascript" src="src/vue-router.js"></script>
+	<script type="text/javascript" src="src/index.js"></script>
+</body>
+</html>
