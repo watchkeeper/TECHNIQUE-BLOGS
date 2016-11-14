@@ -20,19 +20,25 @@ class Index{
 			}),
 			methods:{
 				login(){
-					const data = fs.readFileSync(user_record)
-					alert(data)
-					const obj = JSON.parse(data)
-					const username = obj.user
-					const password= obj.pswd
-					alert(username)
-					alert(password)
-					alert(this.userMsg.user)
-					alert(this.userMsg.pswd)
-					if(username==this.userMsg.user && password==this.userMsg.pswd){
-						alert('log in successfully!')
+					// alert('fuck')
+					const inputerUser = this.userMsg.user
+					const inputerPswd = this.userMsg.pswd
+					if( inputerUser.length<6 || inputerPswd.length<6 ){
+						alert("username or password must more than 5 bytes")
 					}else{
-						alert('username or password is error!!')
+						const data = fs.readFileSync(user_record)
+						const obj = JSON.parse(data)
+						const username = obj.user
+						const password= obj.pswd
+						alert(username)
+						alert(password)
+						alert(this.userMsg.user)
+						alert(this.userMsg.pswd)
+						if(username== inputerUser && password==inputerPswd){
+							alert('log in successfully!')
+						}else{
+							alert('username or password is error!!')
+						}
 					}
 				}
 			}
@@ -51,21 +57,42 @@ class Index{
 			methods:{
 				register(){
 					let user = this.userMsg
-					console.warn(user)
-					//parent do not need data from here ,just deal by self
-					// this.$emit('do-register',user)
-					const user_str = JSON.stringify(user)+`\r`
-					// alert(user_str)
-					fs.appendFile(user_record,user_str,(err)=>{
-						if(err){
-							alert('local register fail ! ')
-							process.exit(1)
+					if(this.len(user.user)<6 || this.len(user.pswd)<6){
+						alert("username or password must more than 5 bytes")
+					}else if(user.pswd !== user.Rpswd){
+						alert("the password you inputed is not equal!")
+					}else{
+						//limit user exist can not reigister
+						const user = fs.readFileSync(user_record)
+						if(user.length>0){
+							alert('Already exist! Can not register any more')
+							//close window
+							process.exit(0)
 						}
-						alert('register successfully!!!')
-						window.location.reload()
-					})
+						// console.warn(user)
+						//parent do not need data from here ,just deal by self
+						// this.$emit('do-register',user)
+						const user_str = JSON.stringify(user)+`\r`
+						// alert(user_str)
+						fs.appendFile(user_record,user_str,(err)=>{
+							if(err){
+								alert('local register fail ! ')
+								process.exit(1)
+							}
+							alert('register successfully!!!')
+							window.location.reload()
+						})
+					}
+				},
+				len(str){
+					return str.length
 				}
 			}
+		}
+	}
+	static mainTpl(){
+		return {
+			template:"#mai-tpl"
 		}
 	}
 	checkJsonDoc(loginDoc){
