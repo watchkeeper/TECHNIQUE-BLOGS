@@ -21,9 +21,22 @@ void dowork(FILE *fp,int sockfd,const struct sockaddr *servaddr,socklen_t ser_le
 {
     int n;
     char sendline[MAXLINE],recvline[MAXLINE + 1];
+    socklen_t len;
+    struct sockaddr *prely_addr;
+
+    prely_addr = malloc(ser_len);
+
     while (fgets(sendline,MAXLINE,fp) != NULL {
         sendto(sockfd,sendline,strlen(sendline),0,servaddr,ser_len);
-        n = recvfrom(sockfd,recvline,MAXLINE,0,NULL,NULL);
+
+        len = ser_len;
+        n = recvfrom(sockfd,recvline,MAXLINE,0,prely_addr,&len);
+
+        /*验证接收到的响应是否正确*/
+        if(len != ser_len || memcmp(servaddr,prely_addr,len) != 0){
+            printf("reply from %s (ignored)\n", sock_ntop(prely_addr,len));
+            continue;
+        }
         recvline[n] = 0;
         fputs(recvline,stdout);
     }
