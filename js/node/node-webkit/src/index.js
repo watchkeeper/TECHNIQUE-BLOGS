@@ -40,13 +40,13 @@ class Index{
 							if(!msg){
 								alert('Your username is not right!')
 							}else{
-								if(inputerPswd!=msg.password){
+								if(db.sha(inputerPswd)!=msg.password){
 									alert('Your password is not right!')
 								}else{
 									alert('Log in successfully!!!')
-									alert(window.location.href)
+									// alert(window.location.href)
 									const root_url = window.location.href.split('#/').shift()
-									alert(util.inspect(root_url))
+									// alert(util.inspect(root_url))
 									window.location.href=root_url+'#/'
 								}
 							}
@@ -145,10 +145,7 @@ class Index{
 			template:"#main-tpl",
 			data:()=>({
 				newPlan:'',
-				planList:[
-					{_id:'1',state:'state this is ',time:'2015-03-11 15:33:33',status:0},
-					{_id:'2',state:'state this is  2',time:'2015-03-11 15:33:33',status:1}
-				]
+				planList:[]
 			}),
 			computed:{
 				// planList(){
@@ -168,7 +165,7 @@ class Index{
 					// alert(util.inspect(newRecord))
 					db.insert('plan',[newRecord]).then((msg)=>{
 						//reDraw data from db
-						alert(util.inspect(msg))
+						// alert(util.inspect(msg))
 						this.planList.push(msg)
 					})
 				},
@@ -187,7 +184,7 @@ class Index{
 							status:temp.status==1?0:0
 						}
 						this.planList.splice(index,1,newObj)
-						alert(`update ${msg.result.n} data`)
+						// alert(`update ${msg.result.n} data`)
 					})
 
 				},
@@ -196,7 +193,7 @@ class Index{
 						v._id==id
 					))
 					db.remove('plan',{_id:id}).then((msg)=>{
-						alert('Delete successfully')
+						// alert('Delete successfully')
 						this.planList.splice(index,1)
 					})
 				}

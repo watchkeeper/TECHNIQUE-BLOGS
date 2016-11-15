@@ -137,7 +137,8 @@ module.exports = {
 	find:find,
 	insert:insert,
 	remove:remove,
-	update:update
+	update:update,
+	sha:sha
 }
 
 
