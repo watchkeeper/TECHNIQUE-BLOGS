@@ -12,12 +12,6 @@
 		<!--here add listener and there is no need to add at javascript-->
 		<router-view class='router-view' ></router-view>
 	</div>
-
-	<template id="main-tpl">
-		<div class="flex">
-			
-		</div>
-	</template>
 	<template id="login-tpl">
 		<div class="flex">
 			<strong class="sign-title">Please sign in</strong>
@@ -38,8 +32,20 @@
 		</div>
 	</template>
 	<template id="main-tpl">
-		<div class="flex">
-			
+		<div class="flexMain">
+			<p class="header">
+				<input type="text" placeholder="input your planner" v-model="newPlan"></input>
+				<button v-on:click="addPlan">Add</button>
+			</p>
+			<h2 style="margin-bottom:25px;font-size:45px;font-weight:bolder;">Task List</h2>
+			<ul class="list">
+				<li v-for="x in planList">
+					<p v-text="x.state"></p>
+					<span v-text="x.time"></span>
+					<a href='javascript:void(0)' v-text="x.status==0?'done!!!':'finish'" v-on:click="finish(x._id)"></a>
+					<a href='javascript:void(0)' v-on:click="ridofit(x._id)">delete</a>
+				</li>
+			</ul>
 		</div>
 	</template>
 
