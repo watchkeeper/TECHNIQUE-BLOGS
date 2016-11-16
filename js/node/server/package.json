@@ -1,7 +1,10 @@
 {
-	"name":"modle-server",
-	"version":"1.0.0",
-	"bin":{
-		"modle-server":"./bin/modle-server"
-	}
+  "name": "modle-server",
+  "version": "1.0.0",
+  "bin": {
+    "modle-server": "./bin/modle-server"
+  },
+  "dependencies": {
+    "nightmare": "^2.8.1"
+  }
 }

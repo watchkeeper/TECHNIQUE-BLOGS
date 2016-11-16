@@ -6,8 +6,12 @@ const path = require('path')
 const fs = require('fs')
 const util = require('util')
 
+const nightmare = require('nightmare')
+const nm = nightmare({show:true})
 const config = require('./modle-server.conf')
 const mime = require('./mime')
+
+nm.goto(`http://localhost:${config.port}`)
 
 /*flag = true means sync*/
 const file_exist = (filepath,flag)=>{
@@ -46,13 +50,17 @@ const server = http.createServer((req,res)=>{
 	const url = req.url
 	/* for attach query string */
 	const _uri = URL.parse(url).pathname
-	const uri = `.${_uri}`
-	console.log(`request uri is ${uri}`)
+	let uri = `.${_uri}`
 	//***judge mimeType deal
 	const  _ext = path.extname(url)
 	const ext = _ext?_ext.slice(1):'unknow'
-	const mime_type = mime[ext] || 'text/plain'
+	const mime_type = mime[ext] || 'text/html'
 	console.log(`mime_type is ${mime_type}`)
+	//**index setting
+	if(!_ext){
+		uri = `${uri}/${config.index}`
+	}
+	console.log(`request uri is ${uri}`)
 	//***judge file
 	file_exist(uri)
 	.then((flag)=>{
