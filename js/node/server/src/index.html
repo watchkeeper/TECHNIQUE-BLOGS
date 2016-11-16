@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Index</title>
+	<style type="text/css">
+		body{
+			background:deepskyblue;
+		}
+	</style>
+</head>
+<body>
+	<h1>hello this is modle server</h1>
+</body>
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$.ajax({
+			type:'get',
+			data:{name:'username',hello:'world'},
+			dataType:'json',
+			url:'/src/index.json'
+		}).done((data)=>{
+			console.warn(data)
+		}).fail((err)=>{
+			console.info(err)
+		})
+	</script>
+</html>

@@ -1,0 +1,7 @@
+{
+	"name":"modle-server",
+	"version":"1.0.0",
+	"bin":{
+		"modle-server":"./bin/modle-server"
+	}
+}

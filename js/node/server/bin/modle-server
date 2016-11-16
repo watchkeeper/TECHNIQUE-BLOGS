@@ -1,0 +1,80 @@
+#!/usr/bin/env node
+/*modle self define static server*/
+const http = require('http')
+const URL = require('url')
+const path = require('path')
+const fs = require('fs')
+const util = require('util')
+
+const config = require('./modle-server.conf')
+const mime = require('./mime')
+
+/*flag = true means sync*/
+const file_exist = (filepath,flag)=>{
+	if(flag){
+		return fs.existsSync(filepath)
+	}else{
+		const pro = new Promise((yes,no)=>{
+			fs.exists(filepath,(judge)=>{
+				if(!judge){
+					no(false)
+				}else{
+					yes(true)
+				}
+			})
+		})
+		return pro
+	}
+}
+
+const file_read = (filepath)=>{
+	const pro = new Promise((yes,no)=>{
+		/*should be binary because of picture*/
+		fs.readFile(filepath,'binary',(err,data)=>{
+			if(err){
+				no(false)
+			}else{
+				yes(data)
+			}
+		})
+	})
+	return pro
+}
+
+const server = http.createServer((req,res)=>{
+	//***judge url
+	const url = req.url
+	/* for attach query string */
+	const _uri = URL.parse(url).pathname
+	const uri = `.${_uri}`
+	console.log(`request uri is ${uri}`)
+	//***judge mimeType deal
+	const  _ext = path.extname(url)
+	const ext = _ext?_ext.slice(1):'unknow'
+	const mime_type = mime[ext] || 'text/plain'
+	console.log(`mime_type is ${mime_type}`)
+	//***judge file
+	file_exist(uri)
+	.then((flag)=>{
+		file_read(uri)
+		.then((data)=>{
+			res.writeHead(200,{'Content-Type':mime_type})
+			console.log(`*****request method is ${req.method}*****`)
+			console.log(`request data is ${data}`)
+			/*should be binary because of picture*/
+			res.write(data,'binary')
+			res.end()
+		}).catch((flag)=>{
+			res.writeHead(500,{'Content-Type':mime_type})
+			res.end('Server happened !!')
+		})
+	}).catch((flag)=>{
+		res.writeHead(404,{'Content-Type':mime_type,"the-key-is":"guess"})
+		res.end('The file you request is not found!')
+	})
+
+})
+
+server.listen(config.port)
+
+console.log(`modle-server is running at port ${config.port}`)
