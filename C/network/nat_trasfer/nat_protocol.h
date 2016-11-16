@@ -71,3 +71,6 @@ struct node *delete_from_list(struct node *list,char * user_name);
 
 /*查找用户*/
 struct node *search(struct node *list/*此时list只是原始链表的一个地址值，修改它的值不会影响实际的链表*/,char * user_name);
+
+/*获取用户列表大小*/
+int size(struct node *user_list);

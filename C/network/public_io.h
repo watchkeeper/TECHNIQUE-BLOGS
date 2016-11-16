@@ -2,10 +2,12 @@
 #include <stdlib.h>
 #include <sys/socket.h>
 #include <strings.h>
+#include <string.h>
 #include <arpa/inet.h>
 #include <sys/types.h>
 #include <netinet/in.h>
 #include <errno.h>
+#include <arpa/inet.h>
 
 
 #define PUBLIC_HOST 127.0.0.1

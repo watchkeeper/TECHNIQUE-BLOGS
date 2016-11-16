@@ -40,3 +40,10 @@ struct node *search(struct node *list/*此时list只是原始链表的一个地�
     for(;list != NULL && strcmp(list->user->user_name,user_name) != 0 ; list = list->next);
     return list;
 }
+/*获取用户列表大小*/
+int size(struct node *user_list)
+{
+    int size = 0;
+    for(;user_list != NULL ;user_list = user_list->next,size++ );
+    return size;
+}

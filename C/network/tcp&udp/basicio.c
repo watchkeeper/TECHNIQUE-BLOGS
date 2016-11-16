@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <sys/types.h>
 #include <netinet/in.h>
+#include <arpa/inet.h>
 /**
  *  * 从一个描述读取 n 个字节
  *   * @param  vptr [被读取的描述符]
@@ -29,4 +30,3 @@ ssize_t readn(int fd,void *vptr,size_t n)
 	}
 	return (n - nleft);
 }
-
