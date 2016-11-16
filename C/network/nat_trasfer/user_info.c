@@ -20,7 +20,7 @@ struct node *delete_from_list(struct node *list,char * user_name)
     struct node *prev;/*被删元素的前一个元素*/
     struct node *cur;/*被删元素*/
 
-    for(cur = list,prev = NULL; cur !=NULL && strcmp( cur->user->user_name , user_name != 0); prev = cur,cur = cur->next);
+    for(cur = list,prev = NULL; cur !=NULL && strcmp( cur->user->user_name , user_name ) != 0; prev = cur,cur = cur->next);
 
     if(cur == NULL)
         return list; /*没有找到元素*/
