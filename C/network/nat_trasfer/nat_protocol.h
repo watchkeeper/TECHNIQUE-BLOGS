@@ -53,7 +53,7 @@ struct node {
 //=========================
 #define P2PMESSAGE 100 //发送消息
 #define P2PMESSAGEACK  101  //收到消息的应答
-#define SEVER_TO_CLINET_MSG 102 //服务器向客户端发送的消息
+#define CONNECT_MSG  102 //服务器向客户端发送的消息,希望此客户给对应的用户发送一个打洞数据包.
 #define P2P_TRASH 103 //客户端发送的打洞包,接收到应该忽略此消息
 
 //客户端之间发送消息的格式,即向服务端请求后,由服务端代发的消息.

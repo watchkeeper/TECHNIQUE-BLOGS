@@ -8,6 +8,8 @@
 #include <netinet/in.h>
 #include <errno.h>
 #include <arpa/inet.h>
+#include <unistd.h>//sleep 函数
+#include <pthread.h>
 
 
 #define PUBLIC_HOST 127.0.0.1

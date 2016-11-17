@@ -100,7 +100,7 @@ int main(int argc, char const *argv[]) {
 
                 //需要转发的消息. trans_msg
                 c_2_c_msg trans_msg;/*打洞信息.*/
-                trans_msg.message_type = SEVER_TO_CLINET_MSG;
+                trans_msg.message_type = CONNECT_MSG;
                 trans_msg.ip_len = ntohl(sender.sin_addr.s_addr);
                 trans_msg.port = ntohs(sender.sin_port);
 
