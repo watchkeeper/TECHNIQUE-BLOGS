@@ -5,13 +5,11 @@ const URL = require('url')
 const path = require('path')
 const fs = require('fs')
 const util = require('util')
+const child_process = require('child_process')
 
-const nightmare = require('nightmare')
-const nm = nightmare({show:true})
 const config = require('./modle-server.conf')
 const mime = require('./mime')
 
-nm.goto(`http://localhost:${config.port}`)
 
 /*flag = true means sync*/
 const file_exist = (filepath,flag)=>{
@@ -45,6 +43,19 @@ const file_read = (filepath)=>{
 	return pro
 }
 
+const file_stat = (path)=>{
+	const pro = new Promise((yes,no)=>{
+		fs.stat(path,(err,stats)=>{
+			if(err){
+				no(false)
+			}else{
+				yes(stats)
+			}
+		})
+	})
+	return pro
+}
+
 const server = http.createServer((req,res)=>{
 	//***judge url
 	const url = req.url
@@ -57,26 +68,96 @@ const server = http.createServer((req,res)=>{
 	const mime_type = mime[ext] || 'text/html'
 	console.log(`mime_type is ${mime_type}`)
 	//**index setting
-	if(!_ext){
-		uri = `${uri}/${config.index}`
-	}
+	// if(!_ext){
+	// 	uri = `${uri}/${config.index}`
+	// }
 	console.log(`request uri is ${uri}`)
-	//***judge file
+	//***judge file exists?
 	file_exist(uri)
-	.then((flag)=>{
-		file_read(uri)
-		.then((data)=>{
-			res.writeHead(200,{'Content-Type':mime_type})
-			console.log(`*****request method is ${req.method}*****`)
-			console.log(`request data is ${data}`)
-			/*should be binary because of picture*/
-			res.write(data,'binary')
-			res.end()
-		}).catch((flag)=>{
-			res.writeHead(500,{'Content-Type':mime_type})
-			res.end('Server happened !!')
+	.then((exists)=>{
+		//get file type and decide weather show the list of document
+		let [type] = []
+		file_stat(uri)
+		.then((stats)=>{
+			console.log('stat show  isFile : '+stats.isFile())
+			//is file , show page
+			if(stats.isFile()){
+				return  'file'
+			}
+			//is directory , show lists in it
+			else if(stats.isDirectory()){
+				return 'directory'
+			}
 		})
-	}).catch((flag)=>{
+		//just return next then and can call series
+		.then((type)=>{
+			console.log('uri type is : '+type)
+			//according to type adopt way
+			switch(type){
+				case 'file':
+					file_read(uri)
+					.then((data)=>{
+						res.writeHead(200,{"Content-Type":mime_type})
+						res.write(data,'binary')
+						res.end()
+					}).catch((err)=>{
+						res.writeHead(500,{"Content-Type":mime_type})
+						res.end("Some error occurs when read file")
+					})
+					break
+				case 'directory':
+					const main_page = `${uri}/${config.index}`
+					//index page exists?
+					file_exist(main_page)
+					.then((exists)=>{
+						file_read(main_page)
+						.then((data)=>{
+							res.writeHead(200,{"Content-Type":mime_type})
+							res.write(data,'binary')
+							res.end()
+						}).catch((err)=>{
+							res.writeHead(500,{"Content-Type":mime_type})
+							res.end("Some error occurs when read file")
+						})
+					})
+					//no index page will show directory
+					.catch((exists)=>{
+						fs.readdir(uri,(err,files)=>{
+							if(err){
+								res.writeHead(500,{"Content-Type":mime_type})
+								res.end('Some error occurs when read directory')
+								return 
+							}
+							//create show page to list directory use child_process
+							const files_str = JSON.stringify(files)
+							//there path ./bin/creator.js is not sure
+							console.log(`node ./bin/creator.js ${uri} ${files_str}`)
+							const c= child_process.exec(
+								`node ./bin/creator.js ${uri} ${files_str}`,
+								(err,stdout,stderr)=>{
+									if(err){
+										console.log(err)
+										process.exit(1)
+									}
+									console.log(stdout)
+									console.log('child_process_stderr_occur'+stderr)
+									res.writeHead(200,{"Content-Type":mime_type})
+									res.write(stdout)
+									res.end()
+								})
+						})
+					})
+					break
+			}
+		})
+		.catch((stat_flag)=>{
+			res.writeHead(500,{"Content-Type":mime_type})
+			res.end('Can not get file or directory message[fs.stat]! ')
+		})
+	})
+	.catch((exists)=>{
+		//any error above and reject will aggregate here 
+		console.log('file exists flag '+exists)
 		res.writeHead(404,{'Content-Type':mime_type,"the-key-is":"guess"})
 		res.end('The file you request is not found!')
 	})
@@ -84,5 +165,7 @@ const server = http.createServer((req,res)=>{
 })
 
 server.listen(config.port)
+
+child_process.exec(`start http://localhost:${config.port}`)
 
 console.log(`modle-server is running at port ${config.port}`)
