@@ -144,7 +144,8 @@ const server = http.createServer((req,res)=>{
 									res.writeHead(200,{"Content-Type":mime_type})
 									res.write(stdout)
 									res.end()
-								})
+								}
+							)
 						})
 					})
 					break
