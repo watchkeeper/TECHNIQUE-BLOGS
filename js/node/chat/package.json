@@ -1,0 +1,17 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "description": "chat room by socket.io node",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [
+    "chat"
+  ],
+  "author": "modle_sherlock",
+  "license": "ISC",
+  "dependencies": {
+    "socket.io": "^1.6.0"
+  }
+}

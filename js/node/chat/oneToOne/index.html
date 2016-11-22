@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>socket.io-oneToOne</title>
+</head>
+<body>
+	<h1>Welcome to Family chat room</h1>
+	<select name="wither" id="who">
+		<option value="">请选择聊天对象</option>
+		<option value="13730877107">13730877107=>Modle_Sherlock</option>
+		<option value="13987692283">13987692283=>Fairy_Chung</option>
+		<option value="11111111111">11111111111=>Modle_Fairy_Son</option>
+	</select>
+	<button type="button" id="begin">发起聊天</button><br>
+	<textarea id="box"></textarea>
+	<button id="post">发送</button>
+
+	<script type="text/javascript" src='/node_modules/socket.io-client/socket.io.min.js'></script>
+	<script type="text/javascript">
+		/*用于改变不同的身份,在控制台输入进行改变*/	
+		window.me_id = '11111111111'
+		/*加个延迟我好设定不同的身份,进行初始化*/
+			class OneToOne{
+				constructor(){
+					this.connect()
+					this.wither = undefined
+					console.log(window.me_id)
+				}
+				connect(){
+					alert(window.me_id)
+					const btn = document.querySelector('#begin')
+					const ws = new io('ws://localhost:3000')
+					ws.on('connect',()=>{
+						console.info('连接成功!')
+					})
+					ws.on('disconnect',()=>{
+						console.info('连接断开....')
+					})
+					btn.addEventListener('click',(e)=>{
+						this.wither = document.querySelector('#who').value
+						if(!this.wither){
+							alert('请选择一个对象')
+						}else{
+							/*主动勾搭创建聊天室*/
+							ws.emit('chat',{wither:this.wither,self:window.me_id})
+						}
+					})
+					ws.on('chat_info',(msg)=>{
+						console.info(msg)
+					})
+					/*被人勾搭到加入聊天室*/
+					ws.on(window.me_id,(chater)=>{
+						console.info(`${chater.chater}和您聊天`)
+						ws.emit('agree',`${window.me_id}已经同意加入聊天室`)
+					})
+					ws.on('agree_info',(msg)=>{
+						console.info(msg)
+					})
+				}
+
+			}
+		setTimeout(function(){
+			const run = new OneToOne()
+		},5000)
+
+	</script>
+</body>
+</html>
