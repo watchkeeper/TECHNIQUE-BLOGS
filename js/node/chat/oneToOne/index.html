@@ -8,7 +8,7 @@
 	<h2>打开控制台查看聊天内容</h2>
 	<input type="text" placeholder='输入对方名字' id="who"></input>
 	<button type="button" id="link">连接</button>
-	<textarea id="content"></textarea>
+	<textarea id="content" placeholder="输入发送的信息"></textarea>
 	<button type="button" id="post">发送</button>
 
 	<script type="text/javascript" src='/node_modules/socket.io-client/socket.io.min.js'></script>
@@ -32,20 +32,23 @@
 			ws.on('comein_info',(msg)=>{
 				console.info(msg)
 			})
-			ws.on('get',(chater,msg)=>{
-				console.warn(`${chater}说:${msg}`)
+			ws.on('chat_info',(msg)=>{
+				console.info(msg)
+			})
+			ws.on('post_info',(msg)=>{
+				console.info(msg)
+			})
+			ws.on('get',(from,to,msg)=>{
+				console.warn(`${from} 对 ${to} 说: ${msg}`)
 			})
 
 			link.addEventListener('click',(e)=>{
 				const wither = input.value
 				ws.emit('chat',window.me,wither,`${window.me}向${wither}发起聊天`)
-				ws.on('chat_info',(msg)=>{
-					console.info(msg)
-				})
 				/*选择用户后才能聊天*/
 				post.addEventListener('click',(e)=>{
 					const text = content.value
-					// ws.emit()
+					ws.emit('post',window.me,wither,text)
 				})
 			})
 		},5000)
