@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>all to all chat room</title>
+</head>
+<body>
+	<textarea cols='30' rows='30' id="content"></textarea><br>
+	<input id="room" type="text" placeholder='输入聊天室 '></input>
+	<button type="button" id="room_in" >选择</button><br>
+	<input id="type" type="text" placeholder='输入要发送的内容 '></input>
+	<button type="button" id="post" >发送</button>
+	
+	<script type="text/javascript" src='/node_modules/socket.io-client/socket.io.min.js'></script>
+	<script type="text/javascript">
+		/*改变这里改变用户*/
+		window.user = 'modle'
+		/*设定延时给修改用户的时间在执行*/
+		setTimeout(()=>{
+			const content = document.getElementById('content')
+
+			const room = document.getElementById('room')
+			const type = document.getElementById('type')
+			const room_in = document.getElementById('room_in')
+			const post = document.getElementById('post')
+
+			const ws = new io('ws://localhost:3000/group')
+			ws.on('connect',()=>{
+				console.info(`${window.user}连接服务器成功!`)
+			})
+			ws.on('disconnect',()=>{
+				console.info(`${window.user}连接服务器失败!`)
+			})
+			ws.on('comie_in_info',(msg)=>{
+				console.info(msg)
+			})
+			ws.on('order_room_info',(msg)=>{
+				console.info(msg)
+			})
+			ws.on('user_info',(msg)=>{
+				console.info(msg)
+			})
+			ws.on('chat_info',(msg)=>{
+				console.info(msg)
+			})
+			ws.on('get_info',(msg)=>{
+				console.warn(msg)
+				const info = document.createTextNode(msg)
+				content.appendChild(info)
+			})
+			ws.emit('come_in',window.user)
+			room_in.addEventListener('click',()=>{
+				const order = room.value
+				ws.emit('order_room',window.user,order)
+				post.addEventListener('click',()=>{
+					const info = type.value
+					ws.emit('chat',window.user,info,'2016/11/24 15:55:23')
+				})
+			})
+
+		},3000)
+		
+
+	</script>
+</body>
+</html>
