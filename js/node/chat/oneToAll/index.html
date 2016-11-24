@@ -2,38 +2,49 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>all to all chat room</title>
+	<title>One_All_Manager</title>
 </head>
 <body>
 	<textarea cols='30' rows='30' id="content"></textarea><br>
-	<input id="room" type="text" placeholder='输入聊天室 '></input>
+	<input id="room" type="text" placeholder='输入要回复的客户 '></input>
 	<button type="button" id="room_in" >选择</button><br>
 	<input id="type" type="text" placeholder='输入要发送的内容 '></input>
 	<button type="button" id="post" >发送</button>
 	
 	<script type="text/javascript" src='/node_modules/socket.io-client/socket.io.min.js'></script>
 	<script type="text/javascript">
-		/*改变这里改变用户*/
+		/*改变这里改变用户,这个是唯一的管理员,不用改变了*/
 		window.user = 'modle'
-		/*设定延时给修改用户的时间在执行*/
-		setTimeout(()=>{
-			const content = document.getElementById('content')
+		const content = document.getElementById('content')
 
-			const room = document.getElementById('room')
-			const type = document.getElementById('type')
-			const room_in = document.getElementById('room_in')
-			const post = document.getElementById('post')
+		const room = document.getElementById('room')
+		const type = document.getElementById('type')
+		const room_in = document.getElementById('room_in')
+		const post = document.getElementById('post')
 
-			const ws = new io('ws://localhost:3000/group')
-			ws.on('connect',()=>{
-				console.info(`${window.user}连接服务器成功!`)
+		const ws = new io('ws://localhost:3000')
+		ws.on('connect',()=>{
+			console.info(`${window.user}连接服务器成功!`)
+		})
+		ws.on('disconnect',()=>{
+			console.info(`${window.user}连接服务器失败!`)
+		})
+		ws.on('toUser_info',(msg)=>{
+			console.info(msg)
+		})
+		ws.on('get_info',(fromUser,message)=>{
+			const text = document.createTextNode(`${fromUser}:${message}`)
+			content.appendChild(text)
+		})
+		ws.emit('comein','modle')
+		room_in.addEventListener('click',()=>{
+			const back_user = room.value
+			ws.emit('toUser',back_user)
+			post.addEventListener('click',()=>{
+				const msg = type.value
+				ws.emit('tell_user',msg,back_user)
 			})
-			ws.on('disconnect',()=>{
-				console.info(`${window.user}连接服务器失败!`)
-			})
-			
-
-		},3000)
+		})
 		
 
 	</script>

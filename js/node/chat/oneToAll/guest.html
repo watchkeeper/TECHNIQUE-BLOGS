@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>One_All_Client</title>
+</head>
+<body>
+	<textarea cols='30' rows='30' id="content"></textarea><br>
+	<input id="msg" type="text" placeholder='给管理员发送消息'>
+	<button type="button" id="post">发送</button>
+	<script type="text/javascript" src='/node_modules/socket.io-client/socket.io.min.js'></script>
+	<script type="text/javascript">
+		window.user = 'soldier'
+		setTimeout(()=>{
+			const content = document.getElementById('content')
+			const msg = document.getElementById('msg')
+			const post = document.getElementById('post')
+			const ws = new io('ws://localhost:3000')
+
+			ws.on('connect',()=>{
+				console.info(`${window.user}已经连接到管理员`)
+			})
+			ws.on('disconnect',()=>{
+				console.info(`${window.user}已经从管理员断开`)
+			})
+			ws.on('comein_info',(msg)=>{
+				console.info(msg)
+			})
+			ws.on('chat_info',(msg)=>{
+				console.info(msg)
+			})
+			ws.on('get_info',(msg)=>{
+				const text  = document.createTextNode(msg)
+				content.appendChild(text)
+			})
+
+			ws.emit('comein',window.user)
+
+			post.addEventListener('click',()=>{
+				const message = msg.value
+				ws.emit('chat',window.user,message)
+
+			})
+		},3000)
+
+
+	</script>
+	
+</body>
+</html>
