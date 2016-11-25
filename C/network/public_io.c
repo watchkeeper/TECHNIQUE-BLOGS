@@ -11,7 +11,7 @@ ssize_t readn(int fd,void *vptr,size_t n)
 	ssize_t nread;
 	char *ptr;
 	ptr = vptr;
-
+    
 	while(nleft > 0){
 		/** read(fd,ptr,nleft) 如果正常读取,应该读取到nleft个字节,但在很多情况下读取到,所以需要将其全部读取. */
 		if((nread = read(fd,ptr,nleft)) < 0){
@@ -73,4 +73,3 @@ ssize_t readline(int fd,void *vptr,size_t maxlen)
 	*ptr = 0;
 	return (n);
 }
-

@@ -16,3 +16,7 @@
 					const struct sockaddr *to,socklen_t *addrlen);
 
 	因为UDP是无连接的,所以发送和接收需要加上地址信息.
+
+    2.一个UDP套接字多次调用connect时：
+        指定新的IP地址和端口号（TCP套接字只能用一次，即不能再次调用connect函数）
+        断开套接字(需要将sin_family 或sin6_family设置为AF_UNSPEC)
