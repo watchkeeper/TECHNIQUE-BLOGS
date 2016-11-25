@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>长轮询</title>
+</head>
+<body>
+	
+	<input type="text" id="num" placeholder="请输入要配对的数字"></input>
+	<button id="post">开始找寻在13亿人里面</button>
+	<textarea id="content"></textarea>
+	<div>用电脑<strong id="s">0</strong>s才找到你</div>
+	<h3></h3>
+
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$('#post').on('click',()=>{
+			let count = 0
+			const r = setInterval(()=>{
+				$('#s').html(count++)
+			},1000)
+			polling()
+			function polling(){
+				$.ajax({
+					url:'/pollingDeal',
+					type:'get',
+					data:{num:525},
+					dataType:'json',
+					timeout:1000*60*60*24
+				}).done((msg)=>{
+					console.info(msg.msg)
+					$('#content').val(`${msg.msg}......\n`)
+					polling()
+				}).fail((msg)=>{
+					console.error(msg)
+				})
+			}
+		})
+	</script>
+</body>
+</html>

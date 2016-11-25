@@ -1,4 +1,5 @@
 /*
+Infact this is a config document of node web application
 tool:
 	supervisor : auto restart when change
 	forever	: forever running -l log -e errlog
@@ -49,6 +50,8 @@ app.use(session({
 	secret:'modlefairy',
 	saveUninitialized:false
 }))
+
+app.use(morgan('combined'))
 
 router(app)
 

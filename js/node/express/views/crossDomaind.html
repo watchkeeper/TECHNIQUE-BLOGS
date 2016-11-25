@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨域长轮询[jsonp]</title>
+</head>
+<body>
+	<button id="begin">开始跨域长轮询,结果请看控制台</button>
+
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<!--用script来代替ajax,ajax循环,所以循环script标签-->
+	<script type="text/javascript">
+		function linkScriptTag(src){
+			const script = document.createElement('script')
+			script.setAttribute('src',src)
+			document.body.appendChild(script)
+		}
+		/*JSONP的方式也是可以实现长轮询的,和ajax的相同之处是:都是请求后台数据,不同于ajax请求返回的是纯数据,jsonp返回的需要是数据和组合好了的javascript代码;*/
+		$('#begin').on('click',()=>{
+			linkScriptTag('http://localhost:622/pollingDealJsonp?num=525')
+		})
+	</script>
+</body>
+</html>
