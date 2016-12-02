@@ -43,13 +43,20 @@ pid_t waitpid(pid_t pid,int * status,int options); // status 退出的状态
 &emsp;&emsp;`exec()`函数簇是一系列以exec开头的函数，功能均为根据文件名找到可执行文件并执行，在执行`exec()`方法后，会替代原来的方法，即所谓的旧瓶装新酒喽，仅仅保留原进程的进程号。声明如下：
 ```C
 #include <unistd.h>
-int execl(const * char pathname,const * char arg0,...);
-int execv(const * char pathname,const * char args[]);
+int execl(const * char pathname,const * char arg0,...); // l list
+int execv(const * char pathname,const * char args[]);   // v vector(数组)
 int execle(const * char pathname,const * char arg0,...,const * char envp[]);
 int execve(const * char pathname,const * char args[],const * char envp[]);
 int execlp(const * char pathname,const * char arg0,...);
 int execvp(const * char pathname,const * char args[]);
 ```  
 &emsp;&emsp;函数分类  
-|                   |                   |                   |
-|:------------------|:------------------|:------------------|
+
+|函数     |    查找方式       |     参数传递方式              |      环境变量                          |
+| :--     | :--:              | :---------------:            | :----------------:| :---------------: |
+|`execl`  | 根据完整目录名进行查找*pathname* |  以多个参数的形式进行传递 |                   |
+|`execv`  |    √               | 以数组的方式传递             |                  |
+|`execle` |√|||
+|`execve` |√|||
+|`execlp` |根据系统环境变量查找名为*pathname*的文件|||
+|`execvp` |√|||
