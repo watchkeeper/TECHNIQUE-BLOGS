@@ -24,7 +24,7 @@ fork();
 &emsp;&emsp;在linux中每个用户可以创建的最大进程数是可以设置的，CHILD_MAX规定任意用户在任一时刻可以拥有的最大任务数。`fork()`在使用时都需要复制程序运行所需的一些空间，这在程序很大时将会拖慢运行时间，故产生了`vfork()`函数。`fork()`和`vfork()`有几点区别：  
 - fork会将父进程的地址空间复制给子进程，而vfork则不会，而是共享同一份空间数据。
 - fork<font>无法保证子进程的执行顺序；而`vfork()`会保证子进程先执行，直到子进程调用`exit()`或`exec()`
-*font*
+
 
 ##2.wait
 ```C
@@ -36,10 +36,20 @@ pid_t wait(int * statloc);
 ```C
 #include <sys/types.h>
 #include <sys/wait.h>
-pid_t waitpid(pid_t pid,int * status,int options);
+pid_t waitpid(pid_t pid,int * status,int options); // status 退出的状态
 ```
 
-##4.<font face="consolas">exec</font>函数簇
+##4.exec函数簇  
+&emsp;&emsp;`exec()`函数簇是一系列以exec开头的函数，功能均为根据文件名找到可执行文件并执行，在执行`exec()`方法后，会替代原来的方法，即所谓的旧瓶装新酒喽，仅仅保留原进程的进程号。声明如下：
 ```C
-
-```
+#include <unistd.h>
+int execl(const * char pathname,const * char arg0,...);
+int execv(const * char pathname,const * char args[]);
+int execle(const * char pathname,const * char arg0,...,const * char envp[]);
+int execve(const * char pathname,const * char args[],const * char envp[]);
+int execlp(const * char pathname,const * char arg0,...);
+int execvp(const * char pathname,const * char args[]);
+```  
+&emsp;&emsp;函数分类  
+|                   |                   |                   |
+|:------------------|:------------------|:------------------|
