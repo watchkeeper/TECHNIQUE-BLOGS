@@ -20,9 +20,15 @@ int main(int argc, char const *argv[]) {
     }
     return 0;
 }
-
+/*fork其他的用法19*/
 void other() {
     fork();
     fork() && fork() || fork();
     fork();
+}
+/*计算fork产生的进程数规律*/
+void count() {
+    for (;;) { /* 循环次数：n 子进程数 ： 2^n - 1*/
+        fork();
+    }
 }
