@@ -1,9 +1,10 @@
 #一.进程函数
 ##1.fork
-+Linux进程结构
-Linux下一个进程在内存里分为三个部分:代码段,堆栈段以及数据段.
+- Linux进程结构
 
-+代码
+  Linux下一个进程在内存里分为三个部分:代码段,堆栈段以及数据段.
+
+- 代码
 ```C
 #include <sys/types.h>
 #include<sys/unistd.h>
