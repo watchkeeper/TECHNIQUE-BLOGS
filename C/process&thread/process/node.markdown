@@ -16,7 +16,8 @@ fork();
 fork() && fork() || fork();
 fork();
 ```  
- 子进程计算方法 ![参见](http://geeksforgeeks.org/wp-content/uploads/forkPuzzle4.jpg)
+ 子进程计算方法  
+ ![参见](http://geeksforgeeks.org/wp-content/uploads/forkPuzzle4.jpg)
 &emsp;&emsp;`fork()`应用场景：  
 - 需要父、子进程同时执行不同的代码  
 - 创建一个进程执行新程序，即在使用`fork()`之后立即使用`exec()`。  
