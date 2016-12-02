@@ -10,7 +10,7 @@
 pid_t fork();
 ```
 &emsp;&emsp;fork译为分叉，即为原来进程创建一个完全一样的子进程。其中创建的进程会复制父进程的堆栈段和数据段（使用的是写复制），`fork()`在父进程中返回创建的子进程的进程ID，而在子进程中则返回0，所以可以通过返回值判断是子进程还是父进程。[实例](./fork.c)   
-下列创建的子进程数：  [参见](http://geeksforgeeks.org/wp-content/uploads/forkPuzzle4.jpg)
+下列创建的子进程数：  ![子进程数](http://geeksforgeeks.org/wp-content/uploads/forkPuzzle4.jpg)
 ```C
 fork();
 fork() && fork() || fork();
