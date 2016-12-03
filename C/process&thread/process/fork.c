@@ -4,6 +4,10 @@
 #include <stdlib.h>
 #include <errno.h>
 
+void _exit_1() {
+    printf("this is exit func %s\n" );
+}
+
 int main(int argc, char const *argv[]) {
     pid_t pid;
     if((pid = fork()) < 0){
@@ -18,6 +22,7 @@ int main(int argc, char const *argv[]) {
     if ((pid = wait(NULL)) < 0) {
         printf("wait error %s\n", strerror(errno));
     }
+    atexit(_exit_1); //将_exit_1 注册为自定义终止程序。
     return 0;
 }
 /*fork其他的用法19*/

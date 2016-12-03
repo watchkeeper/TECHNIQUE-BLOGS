@@ -59,4 +59,42 @@ int execvp(const * char pathname,const * char args[]);
 |`execle` |√|以列举参数的形式进行传递|以envp进行穿点环境变量|
 |`execve` |√|以数组的方式传递|√|
 |`execlp` |根据系统环境变量查找名为*pathname*的文件|以列举参数的形式进行传递|不能显视设置|
-|`execvp` |√|以数组的方式传递|√|
+|`execvp` |√ |以数组的方式传递|√|
+
+
+##5.进程退出
+###1.进程终止方式  
+####1.正常终止  
+- 在`main()`中执行return，等效于`exit()`。  
+- 调用`exit()`，该函数由**ISO C** 定义，在执行该函数之后，会先调用各种自定义的终止处理程序（在`atexit()`中注册），然后关闭所有的IO流。  
+
+```C
+#include <stdlib.h>
+
+void exit(int status); // status 状态码
+```  
+- 调用`_exit()`或`_Exit()`，在调用这两个方法之后，不会再去执行自定义的终止方法，而是交由内核处理，是否冲洗IO，则是由具体实现决定。   
+
+```C
+#include <stdlib.h>
+void _Exit(int status);
+
+
+#include <unistd.h>
+void _exit(int status);
+```  
+`_Exit()`由**ISO C**定义，而`_exit()`则是由**POSIX.1**定义。`_exit()`由`exit()`调用，处理系统细节。
+
+- 进程的最后一个线程调用`return`，而该线程返回的值不作为进程的退出码，而依然以 **0** 作为终止状态返回。
+- 进程的最后一个线程调用 `pthread_exit()`，此时进程的终止状态依然是 0.  
+####2.终止注册函数   
+&emsp;&emsp;`atexit()` 是用户用于自定义终止函数使用，一个进程最多可以注册32个终止函数，由   `exit()` 调用，    [参见使用方法](./fork.c) ，其定义如下：  
+```C
+#include <stdlib.h>
+int atexit(void * (fun)(void)); //fun 为需要执行的终止程序。
+```
+
+####3.异常终止  
+- 调用`abort()`，将会产生一个 **SIGABRT** 信号
+- 当进程接收到某些特定的信号时。
+- 当最后一个线程对 **取消** 作出响应。
