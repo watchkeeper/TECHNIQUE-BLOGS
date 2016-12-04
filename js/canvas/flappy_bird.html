@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+	<title>Flappy bird</title>
+	<style type="text/css">
+		*{
+			padding: 0;margin:0;
+			/*常量固定的变量,作为属性值用*/
+			--color:white;
+			/*initial,最初的,有可发展空间,做属性的继承用*/
+			--width-style:initial;
+			max-width: var(--width-style);
+			--bg-color:initial;
+			background: var(--bg-color);
+		}
+		body{
+			width:100vw;height: 100vh;
+			--bg-color:deepskyblue;
+		}
+		#main{
+			width:100%;
+			--width-style:640px;
+			height: 100%;
+			--bg-color:deepskyblue;
+			color:var(--color); 
+			display: flex;
+			justify-content:center;
+			align-items:center;
+		}
+		#wrap{
+			position: absolute;
+			left:40px;
+			top:40px;
+			z-index:10;
+		}
+	</style>
+</head>
+<body>
+	<div id="main">
+		<strong id='wrap'>score:<cite id='score'>0</cite></strong>
+		<canvas id='canvas' width='300' height='500'></canvas>
+	</div>
+	<script type="text/javascript" src='fly.js'></script>
+</body>
+</html>

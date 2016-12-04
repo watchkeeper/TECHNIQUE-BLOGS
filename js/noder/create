@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+/*use to create directory in noder.md accordding to format*/
+
+const fs = require('fs')
+
+fs.readFile('noder.md','utf8',(err,data)=>{
+	const change = data.replace(/【.+】/g,'|')
+	// console.log(change)
+	const dir_arr_ = change.split('|')
+	// console.log(dir_arr_)
+	dir_arr_.shift()
+	for(let i=0;i<dir_arr_.length;i++){
+		let temp = dir_arr_[i].replace('\r\n','')
+		console.log(temp)
+		if(!fs.existsSync(temp)){
+			fs.mkdirSync(temp)
+			fs.writeFileSync(`${temp}/index.js`,'w')
+			console.log(`已经创建了${temp}并且创建了主文件`)
+		}
+	}
+})
