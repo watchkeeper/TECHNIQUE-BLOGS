@@ -1,4 +1,5 @@
 #include<stdio.h>
+main
 #define ECHO(str) do{\
                         scanf("%s",str);\
                         printf("%s",str);\
