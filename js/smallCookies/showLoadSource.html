@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head id='head'>
+	<meta charset="UTF-8">
+	<title>Show load source percent</title>
+
+</head>
+<body id="body">
+	<h1>资源加载进度监控----主要就是监听加载嘛,加载了就算一次基于总量的百分比嘛--但是监听靠的是新建元素嘛,否则onload不起作用嘛,还有点问题是不够润滑嘛,加个css3属性就好了嘛,有多难?! 用多了css3的属性就会偏离动画的实质</h1>
+	<div style="width:0;height:10px;background:red;transition:1s linear" id="bar"></div>
+	<strong id='percent'>0</strong>
+	<div id="main">
+		
+	</div>
+
+	<script type="text/javascript">
+		window.count = 0
+		var percent = document.getElementById('percent')
+		var bar = document.getElementById('bar')
+		function import_tag(type,url,num,callback){
+			var tag,parent
+			switch(type){
+				case 'css':
+					parent = document.getElementById('head')
+					tag = document.createElement('link')
+					tag.setAttribute('rel','stylesheet')
+					tag.setAttribute('href',url)
+					break
+				case 'js':
+					parent = document.body
+					tag  = document.createElement('script')
+					tag.setAttribute('src',url)
+					break
+				case 'img':
+					parent = document.getElementById('main')
+					tag = document.createElement('img')
+					tag.setAttribute('src',url)
+					break
+			}
+			parent.appendChild(tag)
+			tag.onload = function(){
+				count++
+				console.info(count)
+				percent.innerHTML = (count/15)*100+'%'
+				bar.style.width = (count/15)*500+'px'
+				// alert(count)
+				if(count==num){
+					// alert('callback')
+					callback()
+				}
+			}
+		}
+
+		var links = [
+			'http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap-flex.css',
+			'http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap-reboot.css',
+			'http://cdn.bootcss.com/bootstrap/4.0.0-alpha.5/css/bootstrap.css',
+			'http://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.css',
+			'http://cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap-theme.css'
+		]
+		var imgs = [
+			'http://channelpic.360doc.com/2016/20161202/2016122164947775108692.jpg',
+			'http://channelpic.360doc.com/2016/20161202/201612215444925473276.jpg',
+			'http://channelpic.360doc.com/2016/20161202/20161221874975984928.jpg',
+			'http://channelpic.360doc.com/2016/20161202/2016122182837775151750.jpg',
+			'http://channelpic.360doc.com/2016/20161205/201612594527769120756.jpg'
+
+		]
+		var jses = [
+			'http://cdn.bootcss.com/jquery/3.1.1/jquery.js',
+			'http://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.js',
+			'http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.js',
+			'http://cdn.bootcss.com/jquery/3.0.0/core.js',
+			'http://cdn.bootcss.com/react/15.4.1/react-dom.js'
+		]
+
+		for(var i=0;i<5;i++){
+			import_tag('css',links[i],5,function(){
+				// alert('css finish')
+			})
+			import_tag('js',jses[i],5,function(){
+				// alert('js finish')
+			})
+			import_tag('img',imgs[i],5,function(){
+				// alert('img finish')
+			})
+		}
+	</script>
+</body>
+</html>
