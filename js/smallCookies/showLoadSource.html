@@ -3,15 +3,17 @@
 <head id='head'>
 	<meta charset="UTF-8">
 	<title>Show load source percent</title>
-
 </head>
 <body id="body">
-	<h1>资源加载进度监控----主要就是监听加载嘛,加载了就算一次基于总量的百分比嘛--但是监听靠的是新建元素嘛,否则onload不起作用嘛,还有点问题是不够润滑嘛,加个css3属性就好了嘛,有多难?! 用多了css3的属性就会偏离动画的实质</h1>
+	<h1>
+		资源加载进度监控----主要就是监听加载嘛,加载了就算一次基于总量的百分比嘛--但是监听靠的是新建元素嘛,否则onload不起作用嘛,还有点问题是不够润滑嘛,加个css3属性就好了嘛,有多难?! 用多了css3的属性就会偏离动画的实质
+	</h1>
+
 	<div style="width:0;height:10px;background:red;transition:1s linear" id="bar"></div>
+
 	<strong id='percent'>0</strong>
-	<div id="main">
-		
-	</div>
+
+	<div id="main"></div>
 
 	<script type="text/javascript">
 		window.count = 0

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Svg Warehouse</title>
+	<style>
+		#circle{
+			transform: scale(0.6) skew(30deg);
+			opacity: 0.4;
+		}
+		#modle{
+			position: absolute;
+			transform: rotate(-5deg);
+		}
+	</style>
+</head>
+<body>
+	<!--本来就是标签嘛,里面规定了的样式之类,休想从外面改写,但是变形没有规定I can do it-->
+	<h1>svg图片,可以放大观察对比,这个放大也不模糊</h1>
+	<!--basic-->
+	<Svg xmlns="http://www.w3.org/2000/svg" width='100' height='100' style='margin-bottom: 40px;'>
+		<polygon 
+			points="0,0,50,10,100,0,100,90,50,100,0,90" 
+			fill='red' stroke='red' stroke-width='2' 
+			id='modle'
+		/>
+	</Svg>
+	<!--这样设定动画仅仅只有少量的地方有效果沃日了,可以把其当做一个div来操作-->
+	<Svg xmlns='http://www.w3.org/2000/svg' >
+		<circle cx='50' cy='50' r='40' fill='yellow' stroke='black' stroke-width=3 id='circle'>
+			<animate attributeType="CSS" attributeName="width" from="50" to="30" dur="5s" repeatCount="indefinite" />
+		</circle>
+	</Svg>
+	<Svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'>
+		<ellipse cx='50' cy='50' rx='50' ry='20' fill='green' stroke='black' stroke-width=1 >
+		 	<animate attributeType="CSS" attributeName="opacity" from="1" to="0" dur="5s" repeatCount="indefinite" />
+		 </ellipse>
+	</Svg>
+	<Svg xmlns="http://www.w3.org/2000/svg" width='200' height='200'>
+		<polyline points='0,40 40,40 40,80 80,80 80,120 120,120 120,160' fill='red' stroke='blue' stroke-width=2/>
+	</Svg>
+	<Svg xmlns="http://www.w3.org/2000/svg" width='100' height='100'>
+		<path d="M10,0 L100,100 L0,100  L30,60" stroke='black' stroke-width=3/>
+	</Svg>
+	<hr>
+
+
+	<h1>canvas,可以放大观察对比,看到canvas的模糊了</h1>
+	<canvas id="canvas" width='200' height="200"></canvas>
+	<!--和canvas有点像 一个html来 一个js来,svg每个生出图片都是dom,可以操作-->
+	<script type="text/javascript">
+		var can = document.getElementById('canvas')
+		var ctx = can.getContext('2d')
+
+		ctx.beginPath()
+		ctx.strokeStyle='red'
+		ctx.fillStyle = 'pink'
+		ctx.lineWidth = 5
+		ctx.lineCap = 'round'
+		ctx.moveTo(0,0)
+		ctx.lineTo(50,50)
+		ctx.lineTo(0,50)
+		ctx.lineTo(0,0)
+		ctx.fill()
+		ctx.stroke()
+		ctx.closePath()
+
+		ctx.fillStyle='blue'
+		ctx.fillRect(100,100,40,40)
+	</script>
+
+</body>
+</html>
