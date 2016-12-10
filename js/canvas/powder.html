@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas Powder</title>
+</head>
+<body style="background:#ab262c">
+	
+	<canvas id='canvas' width='500' height='300'></canvas>
+	<script type="text/javascript">
+		document.body.onload = powder
+		var canvas,c,obj,can_w,can_h
+		function powder(){
+			console.log('document onload')
+			init()
+			loop()
+		}
+		function init(){
+			canvas = document.getElementById('canvas')
+			c = canvas.getContext('2d')
+			can_w = canvas.width
+			can_h = canvas.height
+			obj = new powders()
+			console.log(new powders())
+			obj.init()
+		}
+		function loop(){
+			requestAnimationFrame(loop)
+			scene()
+			obj.draw()
+		}
+		function scene(){
+			c.clearRect(0,0,can_w,can_h)
+			c.fillStyle = '#0f0c38'
+			c.fillRect(0,0,can_w,can_h)
+		}
+		
+		var powders = function(){
+			this.o_x
+			this.o_x_sp
+			this.o_y
+			this.o_y_sp
+			this.color
+			this.r
+			this.o_x_sp 
+			this.o_y_sp 
+			this.single_num
+			this.s_x
+			this.s_y
+			this.line_num
+			this.l_x 
+			this.l_y 
+		}
+		powders.prototype.init = function(){
+			this.r = 1
+			this.single_num = 100
+			this.line_num = 10
+			this.s_x = 5
+			this.s_y = 0.2
+			this.l_x = 10
+			this.l_y = 0.2
+			this.o_y = can_h/2-this.r
+			this.o_x = -this.line_num*this.l_x
+			this.color = 'yellow'
+			this.o_x_sp = 0.5
+			this.o_y_sp = 0
+		}
+		/*一般做两个就可以推出全部了*/
+		powders.prototype.draw = function(){
+			this.o_x += this.o_x_sp
+			this.o_y_sp+=0.01
+			for(var j=0;j<this.line_num;j++){
+				for(var i=0;i<this.single_num;i++){	
+					c.beginPath()
+					c.strokeStyle=this.color
+					c.fillStyle = this.color
+					c.lineCap = 'round'
+					c.lineWidth = this.r*2
+					c.moveTo(this.o_x+i*this.s_x+j*this.l_x,
+						can_h/2+(can_h/2)*Math.sin(this.o_y_sp+i*this.s_y))
+					c.lineTo(this.o_x+i*this.s_x+j*this.l_x,
+						can_h/2+(can_h/2)*Math.sin(this.o_y_sp+i*this.s_y))
+					c.fill()
+					c.stroke()
+					c.closePath()
+				}
+			}
+			if(this.o_x>can_w+this.line_num*this.l_x){
+				this.o_x = -this.line_num*this.l_x
+			}
+		}
+	</script>
+</body>
+</html>

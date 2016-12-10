@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>walking woman</title>
+</head>
+<body style="background:#ab262c">
+	<canvas id='canvas' width='400' height='500'></canvas>
+	<script type="text/javascript">
+		document.body.onload = walking
+		var canvas,c,img,canw,canh,woman
+		function walking(){
+			init()
+			loop()
+		}
+		function init(){
+			canvas = document.getElementById('canvas')
+			c = canvas.getContext('2d')
+			canw = canvas.width
+			canh = canvas.height
+			img = new Image()
+			woman = new she()
+			woman.init()
+		}
+		function loop(){
+			requestAnimationFrame(loop)
+			c.clearRect(0,0,canw,canh)
+			c.fillStyle="#0f0c38"
+			c.fillRect(0,0,canw,canh)
+			woman.draw()
+		}
+		var she = function(){
+			this.src
+			this.imgw
+			this.imgh
+			this.imgx
+			this.imgy
+		}
+		she.prototype.init = function(){
+			this.src = 1
+			this.imgw = 150
+			this.imgh = 280
+			this.imgx = (canw-this.imgw)/2
+			this.imgy = (canh-this.imgh)/2
+			this.count = 0
+		}
+		she.prototype.draw = function(){
+			img.src = 'woman/'+this.src+'.png'
+			this.count++
+			if(this.count%10==0){
+				this.src++
+			}
+			/*如果不是换的时候,持续原来的状态否则闪动*/
+			c.drawImage(img,this.imgx,this.imgy,this.imgw,this.imgh)
+			if(this.src==8){
+				this.src = 1
+			}
+		}
+	</script>
+</body>
+</html>

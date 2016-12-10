@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>加速度运动的小球,很经典的运动例子</title>
+</head>
+<body style="background:#ab262c">
+	<canvas id='canvas' width='600' height='400'></canvas>
+
+	<script type="text/javascript">
+		var can = document.getElementById('canvas')
+		var c = can.getContext('2d')
+		/*规定速度是这样规定的,不是我那种乱命名,rub摩擦系数*/
+		var ball = {x:500,y:50,vx:-4,vy:1,ay:0.2,r:10,rub:0.9}
+		loop()
+		function loop(){
+			requestAnimationFrame(loop)
+			c.clearRect(0,0,can.width,can.height)
+			c.fillStyle = 'black'
+			c.fillRect(0,0,can.width,can.height)
+			/*这个绘制和更新的思路很好*/
+			draw()
+			update()
+		}
+		function draw(){
+			c.beginPath()
+			c.fillStyle = 'blue'
+			c.arc(ball.x,ball.y,ball.r,0,2*Math.PI,false)
+			c.fill()
+			c.closePath()
+		}
+		function update(){
+			ball.x+=ball.vx
+			ball.y+=ball.vy
+			ball.vy += ball.ay
+			// console.log(ball.y)
+			//碰撞检测,并且减速:本质是:到了地面,速度减少,方向改变
+			if(ball.y>=can.height-ball.r){
+				//
+				ball.vy = (-ball.vy)*ball.rub
+
+			}
+			if(ball.x>=can.width-ball.r){
+				ball.vx = -ball.vx*ball.rub
+			}
+			if(ball.x<=0+ball.r){
+				ball.vx = -ball.vx*ball.rub
+			}
+		}
+
+	</script>
+</body>
+</html>
