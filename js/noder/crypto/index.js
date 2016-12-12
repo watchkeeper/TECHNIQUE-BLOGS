@@ -59,4 +59,9 @@ let decrypt = decipher.update(cipher_code,'hex','utf8')
 decrypt += decipher.final('utf8')
 console.log(`再次解码后的是:${decrypt}`)
 
+console.log('********sha1加密*******')
+const shaCode = crypto.createHash('sha1')
+const secretCode = shaCode.update('this is my string','utf8').digest('hex')
+console.log(secretCode)
+
 
