@@ -59,4 +59,9 @@ let decrypt = decipher.update(cipher_code,'hex','utf8')
 decrypt += decipher.final('utf8')
 console.log(`再次解码后的是:${decrypt}`)
 
+/*sha1 不可逆加密*/
+const sha_1 = crypto.createHash('sha1')
+const sha_1_code = sha_1.update('I love my fairy','utf8').digest('hex')
+console.log(sha_1_code)
+
 
