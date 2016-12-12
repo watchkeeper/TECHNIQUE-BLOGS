@@ -24,8 +24,8 @@ const c = Object.assign(a,b)
 console.log(c)
 
 /*node work*/
-const debuglog = util.debuglog('foo')
-debuglog('hello  from foo [%d]',123)
+// const debuglog = util.debuglog('foo')
+// debuglog('hello  from foo [%d]',123)
 
 const format = util.format('%s:%s--%d...%j','hello','honey','fuck',{"hello":"world"}) 
 console.log(format)
