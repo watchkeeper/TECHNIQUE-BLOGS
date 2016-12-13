@@ -68,7 +68,7 @@ struct sockaddr_in6
 ```
 
 
-#2  
+#2  数据类型转换  
 ##2.1主机字节序转网络字节序
 
 ```C
@@ -85,7 +85,7 @@ uint32_t ntohl(uint32_t net32bitvalue); //32 位转换.
 ```
 
 
-#2.3 字节操作函数  
+##2.3 字节操作函数  
 ```C
 #include <strings.h>
 void bzero(void * dest,size_t len)
@@ -121,7 +121,7 @@ IPv4 / IPv6:
 ```
 
 
-#3   
+#3 网络方法  
 
 |family 	|		说明|
 | :--: |:--: |
