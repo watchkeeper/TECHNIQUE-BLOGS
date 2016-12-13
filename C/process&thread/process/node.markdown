@@ -26,20 +26,47 @@ fork();
 - fork<font>无法保证子进程的执行顺序；而`vfork()`会保证子进程先执行，直到子进程调用`exit()`或`exec()`
 
 
-##2.wait
+##2.等待子进程终止状态  
+&emsp;&emsp;当一个进程正常或者异常终止时，内核就向其父进程发送 **SIGCHLD** 信号。父进程可以选择忽略该信号，或者提供一个该信号发生时即被调用的函数(信号处理程序)。对于这种信号的系统默认动作是忽略它。内核为每个终止进程保存了一定量的信息，包括进程 `ID`、该进程的终止状态、以及该进程使用的 *CPU* 时间总量。所以,当终止进程的父进程调用 `wait()` 或者 `waitpid()` 函数，即可获取到这些信息。当父进程获取终止进程的终止信息之后，内核就可以释放终止进程所使用的所有存储区、关闭其所有打开的文件。在 UNIX 术语中，一个已经终止、但是其父进程尚未对其进行善后处理(获取终止子进程的相关信息)的进程被称为僵尸进程（**zombie**）。如果编写一个长期运行的程序，调用 `fork()` 产生子进程之后，需要调用   `wait()` 来获取这些子进程的终止状态，否则这些子进程在终止之后将会变成僵尸进程
+###2.1.wait
 ```C
 #include <sys/types.h>
 #include <sys/wait.h>
-pid_t wait(int * statloc);
-```
-##3.waitpid
-```C
-#include <sys/types.h>
-#include <sys/wait.h>
-pid_t waitpid(pid_t pid,int * status,int options); // status 退出的状态
-```
+pid_t wait(int * statloc); //statloc 进程终止状态。
+```   
+- 如果不存在子进程，则返回错误。
+- 如果所有字进程都在运行，则阻塞。
+- 如果一个字进程已经终止，正在等待父进程获取终止状态，获取该进程状态然后返回。  
+获取初始状态的信息宏：  
 
-##4.exec函数簇  
+| 宏 | 说明 |
+| :--: | :--: |
+| `WIFEXITED(status)` |正常返回为**true**，可以通过`WEXITSTATUS(status)`获取`exit()`终止状态的低8位  |
+|`WIFSIGNALED(status)`|如果为异常终止则返回 **true** ，`WTERMSIG(status)`返回使得进程终止的信号|
+|`WIFSTOPPED(status)`|若为当前暂停子进程返回的状态,则为真|
+|`WIFCONTINUED(status)`|若在作业控制暂停后已经继续的子进程返回了状态,则为真|
+
+###2.2.waitpid
+```C
+#include <sys/types.h>
+#include <sys/wait.h>
+pid_t waitpid(pid_t pid,int * status,int options); // status 退出的状态，返回进程ID
+```   
+- pid == -1 等待任一进程，和`wait()` 类似
+- pid > 0 等待对应的进程
+- pid < -1 等待进程组*ID*等于*pid*绝对值的任一子进程
+- pid == 0
+&emsp;&emsp;如果指定的进程或进程组不存在，又或者指定的进程不是当前进程的子进程，那么将出错，`waitpid()`可以通过`options`让函数不阻塞。  
+options选项值：
+
+| 值 | 说明 |
+| :--: | :--: |
+|**0**|效果和`wait()`一样，会阻塞（`wait(&status)` `waitpid(-1,&satatus,0)` 作用一样）|
+|**WNOHANG**|由pid指定的进程仍然在正常运行，则`waitpid()`并不会阻塞，立即返回 0|
+|**WCONTINUED**|由 pid 指定的任一子进程在暂停后已经继续,但其状态尚未报告,则返回其状态|
+|**WUNTRACED**|由 pid 指定的任一子进程已处于暂停状态,并且其状态自暂停以来还未报告过,则返回其状态|
+
+##3.exec函数簇  
 &emsp;&emsp;`exec()`函数簇是一系列以exec开头的函数，功能均为根据文件名找到可执行文件并执行，在执行`exec()`方法后，会替代原来的方法，即所谓的旧瓶装新酒喽，仅仅保留原进程的进程号。声明如下：
 ```C
 #include <unistd.h>
@@ -62,9 +89,9 @@ int execvp(const * char pathname,const * char args[]);
 |`execvp` |√ |以数组的方式传递|√|
 
 
-##5.进程退出
-###1.进程终止方式  
-####1.正常终止  
+##4.进程退出
+###4.1.进程终止方式  
+####4.1.1.正常终止  
 - 在`main()`中执行return，等效于`exit()`。  
 - 调用`exit()`，该函数由**ISO C** 定义，在执行该函数之后，会先调用各种自定义的终止处理程序（在`atexit()`中注册），然后关闭所有的IO流。  
 
@@ -88,14 +115,14 @@ void _exit(int status);
 - 进程的最后一个线程调用`return`，而该线程返回的值不作为进程的退出码，而依然以 **0** 作为终止状态返回。
 - 进程的最后一个线程调用 `pthread_exit()`，此时进程的终止状态依然是 0.  
 
-####2.终止注册函数   
+####4.1.2.终止注册函数   
 &emsp;&emsp;`atexit()` 是用户用于自定义终止函数使用，一个进程最多可以注册32个终止函数，由   `exit()` 调用，    [参见使用方法](./fork.c) ，其定义如下：  
 ```C
 #include <stdlib.h>
 int atexit(void * (fun)(void)); //fun 为需要执行的终止程序。
 ```
 
-####3.异常终止  
+####4.1.3.异常终止  
 - 调用`abort()`，将会产生一个 **SIGABRT** 信号
 - 当进程接收到某些特定的信号时。
 - 当最后一个线程对 **取消** 作出响应。
