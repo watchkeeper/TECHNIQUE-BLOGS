@@ -73,7 +73,7 @@ int pthread_attr_destory(pthread_attr_t * attr);
 ```   
 &emsp;&emsp;在对线程属性进行初始化时，线程的属性即是 **操作系统实现支持的线程所有属性** ，如果线程初始化时被赋予动态内存空间，那在*destory* 时，将会对分配的空间初始化无意义的值，因此被`pthread_attr_destory()` 的属性值不能再被使用（`pthread_create()`）。
 
-#2.2 各属性  
+##2.2 各属性  
 - 分离状态    
 &emsp;&emsp;分离状态表示当前线程和当前线程创建线程之间的联系，对于分离状态：被创建的线程如果运行结束，则自动释放资源；而对于非分离状态：只有当当前线程调用`pthread_join()`返回时，线程资源才会被释放。分离状态设置与获取：   
 ```C
@@ -153,7 +153,7 @@ int pthread_attr_setstacksize(pthread_attr_t * attr ,size_t * stacksize);
 
 ```   
 
--- 线程堆栈地址   
+- 线程堆栈地址   
 ```C
 #include <pthread.h>
 int pthread_attr_getstackaddr(const pthread_attr_t * attr,void ** stackaddf);
