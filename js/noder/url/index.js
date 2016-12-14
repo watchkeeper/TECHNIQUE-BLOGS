@@ -5,3 +5,9 @@ console.log(obj)
 
 const path = url.format(obj)
 console.log(path)
+
+
+console.log("**********************encodeURL********************")
+const link = "http://www.modlefairy.top/index"
+
+console.log(encodeURIComponent(link))
