@@ -83,6 +83,8 @@ int pthread_attr_setdetachstate(pthread_attr_t * attr,int detachstate);
                                                     成功返回0,失败返回-1
                                                     detachstate: PTHREAD_CREATE_DETACHED  分离状态
                                                                  PTHREAD_CREATE_JOINABLE  非分离状态
+
+extern int pthread_detach (pthread_t th_id);  //将某个线程设置为分离状态
 ```   
 
 - 继承性  
@@ -168,3 +170,28 @@ int pthread_attr_setguardsize(pthread_attr_t * attr ,size_t * guardsize);
                 成功返回0,失败返回-1
 ```  
 &emsp;&emsp;线程属性guardsize控制着线程栈末尾之后以避免栈溢出的扩展内存大小。这个属性默认设置为PAGESIZE个字节。可以把guardsize线程属性设为0，从而不允许属性的这种特征行为发生：在这种情况下不会提供警戒缓存区。同样地，如果对线程属性stackaddr作了修改，系统就会假设我们会自己管理栈，并使警戒栈缓冲区机制无效，等同于把guardsize线程属性设为0。
+
+#3 线程其他  
+##3.1 互斥锁   
+```C
+#include <pthread.h>
+
+int pthread_mutex_lock(pthread_mutex_t * mptr);
+int pthread_mutex_unlock(pthread_mutex_t * mptr);
+    成功返回0,失败返回Exxx
+```
+&emsp;&emsp;互斥锁将某个资源进行加锁，使得同一个时间只能有一个线程对其进行操作。在使用之前需要先声明一个 `pthread_mutex_t` 类型的变量作为线程的锁，使用 `pthread_mutex_lock()` 对资源进行加锁，使用 `pthread_mutex_unlock()` 对资源解锁。  
+
+##3.2 线程同步  
+
+```C
+#include <pthread.h>
+
+int pthread_cond_wait(pthread_cond_t * cptr, pthread_mutex_t * mptr);   //等待资源为真
+int pthread_cond_signal(pthread_cond_t * cptr);   // 唤醒某个线程
+//Both return: 0 if OK, positive Exxx value on error
+//
+int pthread_cond_broadcast (pthread_cond_t * cptr); // 唤醒等待某个条件的所有线程
+
+```   
+&emsp;&emsp;同步即是保证在同一个时间内的操作都为原子操作，不会有其他线程进行干扰。
