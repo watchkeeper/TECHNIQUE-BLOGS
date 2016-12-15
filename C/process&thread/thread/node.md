@@ -19,7 +19,7 @@ int pthread_create(pthread_t * restrict tidp,
                     void *restrict arg);
 返回值：成功返回0，失败返回错误编码
 ```
-&emsp;&emsp;pthread_t 为线程ID对应数据类型，tidp 用户存储创建线程成功后对应的线程ID号；attr设置不同的属性，如果为NULL，则使用默认的设置。线程创建成功后，将从 `start_rtn` 函数开始执行，该函数接收一个 **arg** 的参数，返回值为 **(void * )** 。  
+&emsp;&emsp;pthread_t 为线程ID对应数据类型，tidp 用户存储创建线程成功后对应的线程ID号；attr设置不同的属性，如果为NULL，则使用默认的设置。线程创建成功后，将从 `start_routine` 函数开始执行，该函数接收一个 **arg** 的参数，返回值为 **(void * )** 。  
 
 ##1.2 线程终止   
 - 正常调用return退出。
