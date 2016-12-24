@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html >
+<head>
+<meta charset="UTF-8">
+<title>纯CSS3图片滤镜效果</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	
+	<!-- 代码部分begin -->
+	<main class="lanren">
+		<div data-filter="image-grayscale">
+			<h2>grayscale</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-saturate">
+			<h2>saturate</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-sepia">
+			<h2>sepia</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-invert">
+			<h2>invert</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-opacity">
+			<h2>opacity</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-brightness">
+			<h2>brightness</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-contrast">
+			<h2>contrast</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-hue-rotate">
+			<h2>hue-rotate</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-blur">
+			<h2>blur</h2>
+			<img src="images/a.jpg">
+		</div>
+		<div data-filter="image-normal">
+			<h2>normal</h2>
+			<img src="images/a.jpg">
+		</div>
+	</main>
+	<!-- 代码部分end -->
+	<hr>
+	<h1>一些少见有用的css3选择器</h1>
+	<p>
+		<div data-fuck='hello-fairy'>1</div>
+		<div data-fuck='hello-modle'>2</div>
+		<div data-fuck='wowo-xixi' lang='fu'>4</div>
+		<cite>ddd</cite>
+		<div data-fuck='hello-haha' lang='he'>3</div>
+		<p>
+			我们的哎,富哦阿萨德法师打发a,阿撒旦法撒旦法是的发送到发送到发送到<br>发送到发送到发送到发送到发士大夫撒发生地方哈时间段划分开始打开,
+		</p>
+	</p>
+	<p></p>
+	<p></p>
+
+	<style>
+		[data-fuck*="o"]{font-size:20px;font-weight: bolder;}
+		[data-fuck^="hello"]{color:yellow;}
+		[data-fuck$='i']{color:red;}
+		div:lang(he){
+			text-align: center;
+		}
+		div:lang(fu){text-align: right}
+		[data-fuck$="a"]+p:first-letter{font-size:40px;color:red;}
+		[data-fuck$="a"]+p:first-line{font-size:25px;color:yellow;}
+
+	</style>
+	<hr>
+	<h1>CSS3多重背景设定</h1>
+	<div  id='bg-setting' style="width: 1200px;height:1000px;"></div>
+	<div class='demo'></div>
+	<style type="text/css">
+		#bg-setting{
+			padding: 20px;
+			background:url(images/a.jpg),url(images/a.jpg),url(images/a.jpg),url(images/a.jpg),purple;
+			background-position: left top,center top,right top,center center;
+			background-repeat: no-repeat,no-repeat,no-repeat,no-repeat;
+			border-image:url(images/a.jpg) 300 300 round
+
+		}
+			.demo {
+				width:300px;height:300px;background:white;
+				/**/
+			    	box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.2), 
+			                0 0 0 20px rgba(0, 0, 0, 0.2), 
+			                0 0 0 30px rgba(0, 0, 0, 0.2), 
+			                0 0 0 40px rgba(0, 0, 0, 0.2),
+			                0 0 0 50px rgba(0, 0, 0, 0.2),
+			                0 0 0 60px rgba(0, 0, 0, 0.2),
+			                0 0 0 70px rgba(0, 0, 0, 0.2),
+			                0 0 0 80px rgba(0, 0, 0, 0.2);
+			}
+	</style>
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script src="http://cdn.bootcss.com/jquery.transit/0.9.12/jquery.transit.min.js"></script>
+	<script type="text/javascript">
+		$("[data-filter='image-invert'] img").transit({
+			filter:"invert(0%)"
+		},5000,'ease')
+		$("[data-filter='image-hue-rotate'] img").transit({
+			filter:"hue-rotate(0deg)"
+		},5000,'ease')
+		$("[data-filter='image-contrast'] img").transit({
+			filter:"contrast(160%)"
+		},5000,'ease')
+	</script>
+	
+</body>
+</html>
