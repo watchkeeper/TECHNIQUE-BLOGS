@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>随机用户接界面</title>
+</head>
+<body>
+	<h1>按空格看哪个10s内按得多</h1>
+	<h2 id="userMsg">modle</h2>
+	<cite>你按了</cite><strong id='count'>0次</strong>
+	<button id="ready">准备</button>
+
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		var ready = document.getElementById('ready')
+		var count_num=0
+		var userRandomId=Math.floor(Math.random()*10000000)
+		var userId = "user_"+userRandomId
+		var userMsg = document.getElementById('userMsg')
+		userMsg.innerHTML = "<strong>"+userId+"</strong>"
+		var count = document.getElementById('count')
+		//用户登录添加用户到控制台
+		$.ajax({
+			type:'post',
+			data:{user:userId},
+			dataType:'json',
+			url:"/add_user",
+			timeout:1*1000*60*60*24
+		}).done(function(msg){
+			console.info(msg)
+		}).fail(function(err){
+			console.error(err)
+			console.info('信息添加失败!')
+		})
+		ready.addEventListener('click',function(e){
+			alert('等待console显示开始就可以开始摇摆!')
+			$.ajax({
+				url:'/wait_begin',
+				type:'get',
+				data:{},
+				dataType:'json',
+				timeout:1*1000*60*60*24
+			}).done(function(msg){
+				console.log(msg)
+				ready.innerHTML = '快快点击!'
+				document.addEventListener('keyup',function(e){
+					if(e.keyCode=='32'){
+						count_num++
+						count.innerHTML = count_num+'次'
+					}
+				})
+			}).fail(function(err){
+				console.log(err)
+			})
+			ready.innerHTML = '准备中...'
+		})
+	</script>
+</body>
+</html>

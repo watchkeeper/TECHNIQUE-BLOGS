@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>控制台界面</title>
+</head>
+<body>
+	<h1>这是游戏控制终端</h1>
+	<button id="start">开始</button>
+	<ul id="list">
+		<li><span class='user'>某言</span>&emsp;<span class='time'>10</span></li>
+	</ul>
+
+	<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		/*控制台一进去就要监听用户的加入来显示列表*/
+		spy_user()
+		function spy_user(){
+			console.log('spying')
+			var counter=0
+			var c = setInterval(function(){
+				counter++
+				console.warn('坚听了'+counter)
+			},1000)
+			$.ajax({
+				url:'/spy_user',
+				type:'get',
+				dataType:'json',
+				data:{},
+				timeout:1*1000*60*60*24
+			}).done(function(msg){
+				clearInterval(c)
+				counter=0
+				console.log(msg)
+				var html = "<li><span class='user'>"+msg.user+"</span>&emsp;<span class='time'>"+msg.times+"次</span></li>"
+				$('#list').append(html)
+				spy_user()
+			}).fail(function(err){
+				console.log('err happend')
+			})
+		}
+		$('#start').on('click',function(e){
+			$.ajax({
+				url:'/console_begin',
+				data:{flag:true},
+				dataType:'json',
+				type:'post'
+			}).done(function(msg){
+				console.log(msg)
+			}).fail(function(err){
+				console.log(err)
+			})
+		})
+	</script>
+</body>
+</html>
