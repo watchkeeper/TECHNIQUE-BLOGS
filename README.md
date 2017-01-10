@@ -16,4 +16,12 @@ Ronnie and Modle daily technique-blog<br><br><br>
 - 在vim编辑器下进行设置：  `set fileformat=unix` 或 `set ff=unix`
 - 直接替换： `sed 's/\r//g' old > new`
 
+# fiddle原理及其在打开时候web无法访问的问题  
+**原理:**  
+	*所有客户端请求和所有服务器请求都经过fiddle之后再彼此通信,所以可以get request,用于扣限制页面极其方便*  
+
+**resolve:**  
+	*出现那个问题是由于fiddle默认占用8888端口,本地由此端口,就会不行,杀死端口即可*
+
+
 
