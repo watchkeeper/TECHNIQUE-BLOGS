@@ -17,11 +17,10 @@ Ronnie and Modle daily technique-blog<br><br><br>
 - 直接替换： `sed 's/\r//g' old > new`
 
 # fiddle原理及其在打开时候web无法访问的问题  
-**原理:**  
-	*所有客户端请求和所有服务器请求都经过fiddle之后再彼此通信,所以可以get request,用于扣限制页面极其方便*  
+- 原理:  
+&emsp;&emsp;所有客户端请求和所有服务器请求都经过**fiddle**之后再彼此通信，所以可以`get request`，用于扣限制页面极其方便。
 
-**resolve:**  
-	*出现那个问题是由于fiddle默认占用8888端口,本地由此端口,就会不行,杀死端口即可*
-
+- resolve:     
+&emsp;&emsp;出现那个问题是由于**fiddle**默认占用**8888**端口，本地由此端口，就会不行，杀死端口即可。
 
 
