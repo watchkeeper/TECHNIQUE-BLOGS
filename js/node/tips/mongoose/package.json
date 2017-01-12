@@ -1,0 +1,14 @@
+{
+  "name": "mongoose",
+  "version": "1.0.0",
+  "description": "mongoose exercise",
+  "main": "entity.js",
+  "scripts": {
+    "test": "node "
+  },
+  "author": "sherlock",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^4.7.6"
+  }
+}
