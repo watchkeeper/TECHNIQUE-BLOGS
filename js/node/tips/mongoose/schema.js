@@ -1,23 +1,40 @@
-const Schema = require('mongoose').Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 const ObjectId = Schema.ObjectId
 
-const user_schema = new Schema({
-	name:{
+//define schema
+const lover = new Schema({
+	man:{
 		type:String,
-		default:'modle'
+		default:"modle_sherlock"
 	},
-	age:{
+	woman:{
+		type:String,
+		default:"fairy_baby"
+	},
+	home:{
+		type:String,
+		default:"all of yunnan"
+	},
+	year:{
 		type:Number,
-		min:18,
-		index:true
-	},
-	date:{
-		type:Date,
-		default:Date.now
-	},
-	_id:{
-		type:ObjectId
+		default:44
 	}
 })
+exports.lover_schema = lover
 
-module.exports = user_schema
+//define model method
+lover.statics.findByName = function(name){
+	return new Promise((resolve,reject)=>{
+		this.find({$or:[{man:name,woman:name}]},(err,result)=>{
+			if(err){
+				console.log('err happened!')
+				console.log(err)
+				process.exit(1)
+			}
+			console.log('check ok')
+			resolve(result)
+		})
+	})
+}
+exports.findByName = lover.statics.findByName
