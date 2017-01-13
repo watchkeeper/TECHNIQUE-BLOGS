@@ -23,4 +23,15 @@ Ronnie and Modle daily technique-blog<br><br><br>
 - resolve:     
 &emsp;&emsp;出现那个问题是由于**fiddle**默认占用**8888**端口，本地由此端口，就会不行，杀死端口即可。
 
+# 各路英雄  
 
+[ibm社区](http://www.ibm.com/developerworks/cn/)<br>
+[美团技术](http://tech.meituan.com)<br>
+[C++](http://www.cppblog.com)<br>
+[大牛博客](https://www.byvoid.com)<br>
+[机器学习](http://freemind.pluskid.org)<br>
+[http://www.yinwang.org](http://www.yinwang.org)<br>
+[浪人……](http://www.hankcs.com)<br>
+[注重底层](https://ring0.me)<br>
+[Java](http://colobu.com)<br>
+[奇虎360科技博客](http://blogs.360.cn)  
