@@ -1,7 +1,7 @@
 # mongoose document state   
 
 ## the rest can refer to  
-> (mongoose)[http://mongoosejs.com/docs]
+> [mongoose api](http://mongoosejs.com/docs)
 
 * learn and research document  
 	**app.js**  
@@ -11,6 +11,6 @@
 	**model : model.js**  
 	**schema : schema.js**  
 
-# final standard mongoodb model is here  
-	**standard**
+* final standard mongoodb model is here  
+        **standard**
 	
