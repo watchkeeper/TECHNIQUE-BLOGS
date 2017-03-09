@@ -14,10 +14,10 @@ Ronnie and Modle daily technique-blog<br><br><br>
 
 - 使用`dos2unix`工具
 - 在vim编辑器下进行设置：  `set fileformat=unix` 或 `set ff=unix`
-- 直接替换： `sed 's/\r//g' old > new`
+- 直接替换： `sed -i 's/\r//g' old `，直接在源文件进行替换
 
-# fiddle原理及其在打开时候web无法访问的问题  
-- 原理:  
+# fiddle原理及其在打开时候web无法访问的问题  
+- 原理:  
 &emsp;&emsp;所有客户端请求和所有服务器请求都经过**fiddle**之后再彼此通信，所以可以`get request`，用于扣限制页面极其方便。
 
 - resolve:     
