@@ -33,7 +33,8 @@ q.b.show()//haha,a
 
 //===指向最后调用的对象
 var final_q = q.b.show
-final_q()//undefined,window
+//这个final_q和q.b.show相等,将相当于把当前this暴露给了window
+final_q()//haha,window
 
 //===构造函数版本的,实例化以后,this指向了对象
 function c () {
