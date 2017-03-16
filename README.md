@@ -36,3 +36,5 @@ Ronnie and Modle daily technique-blog<br><br><br>
 [Java](http://colobu.com)<br>
 [奇虎360科技博客](http://blogs.360.cn)  <br>
 [练兵场](https://leetcode.com/problemset/algorithms/)
+[并行编程](http://www.parallellabs.com)  
+[spongeliu's blog](http://www.spongeliu.com/)
