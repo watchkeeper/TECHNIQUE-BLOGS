@@ -1,0 +1,24 @@
+{
+    "array": [
+        [
+            1,
+            2,
+            3
+        ],
+        1,
+        "Hello"
+    ],
+    "boolean": true,
+    "null": null,
+    "number": 123,
+    "object": {
+        "a": "b",
+        "c": "d",
+        "e": "f"
+    },
+    "begintime": "201712101955",
+    "endTime": "201712101955",
+    "String": "Hello   World !",
+    "heh": "201712101955",
+    "a": 234
+}

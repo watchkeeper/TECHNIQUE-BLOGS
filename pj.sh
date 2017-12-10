@@ -2,22 +2,7 @@
 ###############################
 ############jie xie json
 ###############################
-# 
-#  	"array": [
-#  		1,
-#     		2,
-#     		3
-#   	],
-#   	"boolean": true,
-#   	"null": null,
-#   	"number": 123,
-#   	"object": {
-#     		"a": "b",
-#     		"c": "d",
-#     		"e": "f"
-#   	},
-#   	"string": "Hello World"
-# 
+
 declare LOG_DIR=/tmp/pj.log
 ###Specify the start and end of the string  . Return : start end
 function indexOf(){
